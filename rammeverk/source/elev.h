@@ -11,7 +11,7 @@
 
 
 
-/**
+/**elev_button_type_t
   Initialize elevator.
   @return Non-zero on success, 0 on failure.
 */
