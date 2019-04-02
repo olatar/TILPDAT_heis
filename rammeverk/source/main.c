@@ -33,17 +33,21 @@ int main(){
         //NOT WORKING ATM
         //Get button signals
         
-        /*
-        for(int btype = 0; btype < 3; btype++){
+        
+        for(int button = 0; button < 3; button++){
             for(int floor = 0; floor < N_FLOORS; floor++){
-                if (elev_get_button_signal((elev_button_type_t)btype, floor)) { //Caster til enum
-                    //event_button((elev_button_type_t)button, floor);
-                    elev_set_motor_direction(DIRN_STOP);
+                
+                if ( (floor == N_FLOORS - 1 && button == BUTTON_CALL_UP ) || floor == 0 && button == BUTTON_CALL_DOWN) {
+                    continue;
                 }
                 
+                if (elev_get_button_signal(button, floor)) { //Caster til enum
+                    event_button(button, floor);
+                    //elev_set_motor_direction(DIRN_STOP);
+                }
             }
         }
-        */
+        
     }
     
     return 0;

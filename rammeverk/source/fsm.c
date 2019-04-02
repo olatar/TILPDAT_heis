@@ -35,7 +35,7 @@ void event_button(elev_button_type_t button, int floor) {
             FSM_set_state(st_running);
             break;
 
-        case st_running:
+        case st_running: //Add to queue
             /* code */
             break;
 

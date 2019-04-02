@@ -27,7 +27,7 @@ void FSM_set_state(state s);
 
 
 /**
- * Initializing the FSM: Emptying queue
+ * Initializing the FSM: Emptying queue, setting initial direction
 */
 void FSM_init();
 
