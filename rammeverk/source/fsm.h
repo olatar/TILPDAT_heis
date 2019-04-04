@@ -17,6 +17,9 @@ int FSM_q_empty;
 int FSM_stop_pressed;
 int FSM_door_open; 
 
+int FSM_current_floor;
+int FSM_desired_floor; 
+
 
 
 /**
@@ -57,7 +60,7 @@ void event_time_is_out();
 /**
  * Decides the direction of the motor depending on current and wanted floor
 */
-elev_motor_direction_t FSM_decide_direction(int this_floor, int desired_floor);
+elev_motor_direction_t FSM_decide_direction();
 
 
 

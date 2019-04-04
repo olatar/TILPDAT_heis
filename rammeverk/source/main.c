@@ -25,30 +25,27 @@ int main(){
         //Get floor signal
         int floor = elev_get_floor_sensor_signal();
         if (floor != -1) {
-            //elev_set_motor_direction(DIRN_STOP);
             event_floor(floor);
         }
         
         
-        //NOT WORKING ATM
         //Get button signals
-        
-        
         for(int button = 0; button < 3; button++){
             for(int floor = 0; floor < N_FLOORS; floor++){
                 
-                if ( (floor == N_FLOORS - 1 && button == BUTTON_CALL_UP ) || floor == 0 && button == BUTTON_CALL_DOWN) {
+                //Avoid assert (fail for buttons that dont exist)
+                if ( (floor == N_FLOORS - 1 && button == BUTTON_CALL_UP ) || (floor == 0 && button == BUTTON_CALL_DOWN)) {
                     continue;
                 }
                 
-                if (elev_get_button_signal(button, floor)) { //Caster til enum
+                if (elev_get_button_signal(button, floor)) {
                     event_button(button, floor);
-                    //elev_set_motor_direction(DIRN_STOP);
                 }
             }
-        }
-        
+        }   
     }
+
+    
     
     return 0;
 }

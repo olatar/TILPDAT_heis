@@ -1,6 +1,7 @@
 #include "fsm.h"
 #include "elev.h"
 #include "queue.h"
+#include "timer.h"
 
 
 
@@ -9,15 +10,12 @@ static state current_state = st_init; //Initial state
 
 
 
-int FSM_current_floor;
-int FSM_desired_floor; 
-
 
 
 void FSM_init(){
     elev_set_motor_direction(DIRN_UP);
-    FSM_q_empty = 1;
-    q_reset_queue();
+    q_reset_orders();
+    direction_space = DIRN_STOP;
 }
 
 
@@ -30,17 +28,17 @@ void event_button(elev_button_type_t button, int floor) {
         case st_init: //Do nothing, let it initialize
             break;
         case st_idle: //Add to queue, change state
-            q_set_queue(button,floor);
-            FSM_desired_floor = floor;
+            q_set_orders(button,floor);
             FSM_set_state(st_running);
             break;
 
         case st_running: //Add to queue
-            /* code */
+            q_set_orders(button,floor);
+            q_set_desired_floor();
             break;
 
-        case st_door:
-            /* code */
+        case st_door: //Add to queue
+            q_set_orders(button,floor);
             break;
 
         case st_EStop:
@@ -58,6 +56,7 @@ void event_button(elev_button_type_t button, int floor) {
 
 void event_floor(int floor){
     FSM_current_floor = floor;
+    elev_set_floor_indicator(floor);
     switch (current_state)
     {
         case st_init:
@@ -69,15 +68,16 @@ void event_floor(int floor){
 
         case st_running:
             if (FSM_current_floor == FSM_desired_floor) {
-                //Testing purpose only
-                q_reset_queue(); 
-                FSM_set_state(st_idle);
+                FSM_set_state(st_door);
             }
-            
             break;
 
         case st_door:
-            /* code */
+            if (timer_isTimeOut()) {
+                elev_set_door_open_lamp(0);
+                FSM_set_state(st_idle);
+            }
+            
             break;
 
         case st_EStop:
@@ -93,11 +93,14 @@ void event_floor(int floor){
 
 
 
-elev_motor_direction_t FSM_decide_direction(int this_floor, int desired_floor){
-    if (desired_floor > this_floor) {
+elev_motor_direction_t FSM_decide_direction(){
+    
+    q_set_desired_floor();
+
+    if (FSM_desired_floor > FSM_current_floor) {
         return DIRN_UP;
     }
-    else if(desired_floor < this_floor)
+    else if(FSM_desired_floor < FSM_current_floor)
     {
         return DIRN_DOWN;
     }
@@ -117,18 +120,21 @@ void FSM_set_state(state s){
     switch (current_state)
     {
         case st_idle:       //Hvis noe i køen, hopp rett til st_running
-            if (!FSM_q_empty) {
+            /*if (!FSM_q_empty) {
                 FSM_set_state(st_running); 
-            }
+            }*/
             elev_set_motor_direction(DIRN_STOP);
             break;
 
         case st_running:
-            elev_set_motor_direction(FSM_decide_direction(FSM_current_floor, FSM_desired_floor));
+            elev_set_motor_direction(FSM_decide_direction());
             break;
 
         case st_door:
-            /* code */
+            timer_start();
+            elev_set_motor_direction(DIRN_STOP);
+            q_remove_order(FSM_current_floor); //Order in this floor is served
+            elev_set_door_open_lamp(1);
             break;
 
         case st_EStop:
