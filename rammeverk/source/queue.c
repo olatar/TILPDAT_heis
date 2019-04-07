@@ -82,7 +82,8 @@ void q_set_direction_space(){ //Kan spare noen linjer på å lage if() i stedet.
 void q_set_desired_floor(){ //Iterates through orders in the elevator space to determine where to go next
 
     if (direction_space == DIRN_UP) { //Only check orders that go up
-        for(int i = FSM_current_floor; i < N_FLOORS; i++) //No need to check highest floor
+        FSM_desired_floor = N_FLOORS-1;
+        for(int i = FSM_current_floor; i < N_FLOORS-1; i++) //No need to check highest floor
         {
             if (orders[i][DIRN_UP+1] && (FSM_desired_floor > i)) { //Update desired floor to the lowest in DIRN_UP
                 FSM_desired_floor = i;
@@ -93,6 +94,7 @@ void q_set_desired_floor(){ //Iterates through orders in the elevator space to d
     }
 
     else if (direction_space == DIRN_DOWN) { //Only check orders that go down
+        FSM_desired_floor = 0;
         for(int i = FSM_current_floor; i > 0; i--) //No need to check lowest floor
         {
             if (orders[i][DIRN_DOWN+1] && (FSM_desired_floor < i)) { //Update desired floor to the highest in DIRN_DOWN

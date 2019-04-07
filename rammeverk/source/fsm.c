@@ -2,6 +2,7 @@
 #include "elev.h"
 #include "queue.h"
 #include "timer.h"
+#include <stdio.h>
 
 
 
@@ -23,6 +24,10 @@ void FSM_init(){
 
 void event_button(elev_button_type_t button, int floor) {
 
+    printf("Desired floor = %d\n", FSM_desired_floor);
+    printf("Space = %d\n", direction_space);
+    printf("State = %d\n", (state)current_state);
+    
     switch (current_state)
     {
         case st_init: //Do nothing, let it initialize
@@ -60,6 +65,7 @@ void event_floor(int floor){
     switch (current_state)
     {
         case st_init:
+            FSM_desired_floor = FSM_current_floor;
             FSM_set_state(st_idle);
             break;
 
@@ -119,10 +125,7 @@ void FSM_set_state(state s){
 
     switch (current_state)
     {
-        case st_idle:       //Hvis noe i køen, hopp rett til st_running
-            /*if (!FSM_q_empty) {
-                FSM_set_state(st_running); 
-            }*/
+        case st_idle:       
             elev_set_motor_direction(DIRN_STOP);
             break;
 
