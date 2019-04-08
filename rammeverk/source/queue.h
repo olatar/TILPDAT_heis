@@ -49,4 +49,10 @@ void q_reset_orders(); //Empty all orders
 
 
 
+/**
+ * Testing
+*/
+void print_q();
+
+
 #endif

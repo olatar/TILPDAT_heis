@@ -1,11 +1,13 @@
 #include "queue.h"
 #include "fsm.h"
+#include <stdio.h>
 
 static int orders[N_FLOORS][3]; //Matrix with orders
 
 
 void q_set_orders(elev_button_type_t button, int floor){
-    orders[floor][button+1] = 1; //Buttons: [-1,0,1]
+    print_q();
+    orders[floor][button] = 1; //Buttons: [0,1,2]
     q_set_direction_space();
     FSM_q_empty = 0;
 
@@ -14,9 +16,16 @@ void q_set_orders(elev_button_type_t button, int floor){
 
 
 void q_remove_order(floor){
-    for(int i = 0; i < 3; i++)
-    {
+    for(int i = 0; i < 3; i++){
         orders[floor][i] = 0;
+    }
+    FSM_q_empty = 1;    //Checking if the order table is empty
+    for(int floor = 0; floor < N_FLOORS; floor++){
+        for(int button = 0; button < 3; button++){
+            if (orders[floor][button]) {
+                FSM_q_empty = 0;
+            }
+        }
     }
 }
 
@@ -46,6 +55,7 @@ void q_set_direction_space(){ //Kan spare noen linjer på å lage if() i stedet.
             break;
         
         case DIRN_UP:
+            thresh_floor = N_FLOORS-1;
             for(int floor = FSM_current_floor; floor < N_FLOORS; floor++){
                 for(int button = 0; button < 3; button++){
                     if (orders[floor][button]) {
@@ -60,6 +70,7 @@ void q_set_direction_space(){ //Kan spare noen linjer på å lage if() i stedet.
             break;
         
         case DIRN_DOWN:
+            thresh_floor = 0;
             for(int floor = FSM_current_floor; floor >= 0; floor--){
                 for(int button = 0; button < 3; button++){
                     if (orders[floor][button]) {
@@ -85,7 +96,7 @@ void q_set_desired_floor(){ //Iterates through orders in the elevator space to d
         FSM_desired_floor = N_FLOORS-1;
         for(int i = FSM_current_floor; i < N_FLOORS-1; i++) //No need to check highest floor
         {
-            if (orders[i][DIRN_UP+1] && (FSM_desired_floor > i)) { //Update desired floor to the lowest in DIRN_UP
+            if (orders[i][BUTTON_COMMAND] || (orders[i][BUTTON_CALL_UP] && (FSM_desired_floor > i))) { //Update desired floor to the lowest in DIRN_UP
                 FSM_desired_floor = i;
             }
             
@@ -95,9 +106,9 @@ void q_set_desired_floor(){ //Iterates through orders in the elevator space to d
 
     else if (direction_space == DIRN_DOWN) { //Only check orders that go down
         FSM_desired_floor = 0;
-        for(int i = FSM_current_floor; i > 0; i--) //No need to check lowest floor
+        for(int i = 0; i <= FSM_current_floor; i++) //No need to check lowest floor
         {
-            if (orders[i][DIRN_DOWN+1] && (FSM_desired_floor < i)) { //Update desired floor to the highest in DIRN_DOWN
+            if (orders[i][BUTTON_COMMAND] || (orders[i][BUTTON_CALL_DOWN] && (FSM_desired_floor < i))) { //Update desired floor to the highest in DIRN_DOWN
                 FSM_desired_floor = i;
             }
             
@@ -122,4 +133,16 @@ void q_reset_orders(){
 
 
 
+void print_q(){
+    printf("\n\t0.\t1.\t2.\t3.\n");
+    for(int i = 0; i < N_BUTTONS; i++){
+        printf("%d\t", i);   
+        for(int j = 0; j < N_FLOORS; j++)
+        {
+            printf("%d\t",orders[j][i]);
+        }
+        printf("\n\n");
+    }
+    
+}
 

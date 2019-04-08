@@ -5,18 +5,11 @@
 #include <stdio.h>
 
 
-
-
-static state current_state = st_init; //Initial state
-
-
-
-
-
 void FSM_init(){
     elev_set_motor_direction(DIRN_UP);
     q_reset_orders();
     direction_space = DIRN_STOP;
+    current_state = st_init;
 }
 
 
@@ -24,10 +17,6 @@ void FSM_init(){
 
 void event_button(elev_button_type_t button, int floor) {
 
-    printf("Desired floor = %d\n", FSM_desired_floor);
-    printf("Space = %d\n", direction_space);
-    printf("State = %d\n", (state)current_state);
-    
     switch (current_state)
     {
         case st_init: //Do nothing, let it initialize
@@ -81,7 +70,13 @@ void event_floor(int floor){
         case st_door:
             if (timer_isTimeOut()) {
                 elev_set_door_open_lamp(0);
-                FSM_set_state(st_idle);
+                if (!FSM_q_empty) {
+                    FSM_set_state(st_running);
+                }
+                else
+                {
+                    FSM_set_state(st_idle);
+                }
             }
             
             break;
@@ -122,6 +117,7 @@ elev_motor_direction_t FSM_decide_direction(){
 void FSM_set_state(state s){
     
     current_state = s;
+    q_set_direction_space();
 
     switch (current_state)
     {
@@ -147,4 +143,10 @@ void FSM_set_state(state s){
         default:
             break;
     }
+    printf("Current state: %d\n", current_state);
+    printf("Current floor: %d\n", FSM_current_floor);
+    printf("Desired floor: %d\n", FSM_desired_floor);
 }
+
+
+

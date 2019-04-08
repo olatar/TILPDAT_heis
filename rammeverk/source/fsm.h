@@ -9,6 +9,8 @@
 */
 typedef enum {st_init, st_idle, st_running, st_door, st_EStop} state;
 
+static state current_state; 
+
 
 
 //Boolean variables
@@ -18,9 +20,7 @@ int FSM_stop_pressed;
 int FSM_door_open; 
 
 int FSM_current_floor;
-int FSM_desired_floor; 
-
-
+int FSM_desired_floor;
 
 /**
  * Switch to state s
@@ -61,6 +61,8 @@ void event_time_is_out();
  * Decides the direction of the motor depending on current and wanted floor
 */
 elev_motor_direction_t FSM_decide_direction();
+
+
 
 
 

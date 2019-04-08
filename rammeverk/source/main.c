@@ -1,5 +1,6 @@
 #include "elev.h"
 #include "fsm.h"
+#include "queue.h"
 #include <stdio.h>
 
 
@@ -17,8 +18,11 @@ int main(){
         
         // Get stop signal
         if (elev_get_stop_signal()) {
+            /*
             elev_set_motor_direction(DIRN_STOP);
             break;
+            */
+           printf("Direction space: %d\n", direction_space);
         }
         
 
