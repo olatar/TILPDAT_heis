@@ -6,14 +6,13 @@
 elev_motor_direction_t direction_space;
 
 /**
- * Updates the queue following the priority algorithm
- * NOT FINISHED
+ * Updates the order matrix, direction space and order lights
 */
 void q_set_orders(elev_button_type_t button, int floor);
 
 
 /**
- * Serves all orders at a given floor
+ * Serves all orders at a given floor, updates lights.
 */
 void q_remove_order(int floor);
 
@@ -26,7 +25,6 @@ void q_set_desired_floor();
 
 
 
-
 /**
  * Determines the overall direction of the carriage
 */
@@ -34,25 +32,10 @@ void q_set_direction_space();
 
 
 
-
 /**
- * Returns the nr.1 priority (?)
-*/
-int q_get_orders();
-
-
-
-/**
- * Resets the queue, all slots to zero
+ * Resets the queue, sets all slots to zero, updates lights.
 */
 void q_reset_orders(); //Empty all orders
-
-
-
-/**
- * Testing
-*/
-void print_q();
 
 
 #endif

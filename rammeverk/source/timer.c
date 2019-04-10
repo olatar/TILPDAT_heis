@@ -9,6 +9,9 @@ void timer_start(){
     start_time = time(NULL);
 }
 
+
+
+
 int timer_isTimeOut(){
     current_time = time(NULL);
 

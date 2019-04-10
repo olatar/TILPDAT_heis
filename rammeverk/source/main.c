@@ -1,6 +1,7 @@
 #include "elev.h"
 #include "fsm.h"
 #include "queue.h"
+#include "timer.h"
 #include <stdio.h>
 
 
@@ -13,27 +14,33 @@ int main(){
 
     FSM_init();
 
+
     while(1){
         
-        
-        // Get stop signal
+        // Manage stop event
         if (elev_get_stop_signal()) {
-            /*
-            elev_set_motor_direction(DIRN_STOP);
-            break;
-            */
-           printf("Direction space: %d\n", direction_space);
+            FSM_stop_pressed_logic();
+            continue;
         }
+        else{
+            FSM_stop_depressed_logic();
+        }
+        
         
 
-        //Get floor signal
+        //Manage floor event
         int floor = elev_get_floor_sensor_signal();
         if (floor != -1) {
-            event_floor(floor);
+            FSM_between_floors = 0;
+            FSM_event_floor(floor);
+        }
+        else{
+            FSM_between_floors = 1;
         }
         
         
-        //Get button signals
+        
+        //Manage button event
         for(int button = 0; button < 3; button++){
             for(int floor = 0; floor < N_FLOORS; floor++){
                 
@@ -43,55 +50,11 @@ int main(){
                 }
                 
                 if (elev_get_button_signal(button, floor)) {
-                    event_button(button, floor);
+                    FSM_event_button(button, floor);
                 }
             }
         }   
     }
 
-    
-    
     return 0;
 }
-
-
-
-
-
-
-
-
-    /*
-    EXAMPLE PROGRAM
-
-    if (!elev_init()) {
-        printf("Unable to initialize elevator hardware!\n");
-        return 1;
-    }
-
-    elev_set_motor_direction(DIRN_STOP);
-
-    while(1){
-
-    if (elev_get_floor_sensor_signal() == N_FLOORS - 1) {
-        elev_set_motor_direction(DIRN_DOWN);
-    } else if (elev_get_floor_sensor_signal() == 0) {
-        elev_set_motor_direction(DIRN_UP);
-    }
-
-    
-    if (elev_get_button_signal(BUTTON_CALL_UP,2)) {
-        elev_set_motor_direction(DIRN_UP);
-    }
-    else if(elev_get_button_signal(BUTTON_CALL_DOWN,2))
-    {
-        elev_set_motor_direction(DIRN_DOWN);
-    }
-    
-    if (elev_get_stop_signal()) {
-            elev_set_motor_direction(DIRN_STOP);
-            break;
-        }
-    }
-    
-    */

@@ -9,15 +9,14 @@ void FSM_init(){
     elev_set_motor_direction(DIRN_UP);
     q_reset_orders();
     direction_space = DIRN_STOP;
-    current_state = st_init;
+    FSM_current_state = st_init;
 }
 
 
 
 
-void event_button(elev_button_type_t button, int floor) {
-
-    switch (current_state)
+void FSM_event_button(elev_button_type_t button, int floor) {
+    switch (FSM_current_state)
     {
         case st_init: //Do nothing, let it initialize
             break;
@@ -35,8 +34,7 @@ void event_button(elev_button_type_t button, int floor) {
             q_set_orders(button,floor);
             break;
 
-        case st_EStop:
-            /* code */
+        case st_EStop: //Ingnore any orders while emergency stopped
             break;
 
         default:
@@ -48,12 +46,15 @@ void event_button(elev_button_type_t button, int floor) {
 
 
 
-void event_floor(int floor){
-    FSM_current_floor = floor;
+void FSM_event_floor(int floor){
+
+    //Update current floor and floor lights.
+    FSM_current_floor = floor; 
     elev_set_floor_indicator(floor);
-    switch (current_state)
+
+    switch (FSM_current_state)
     {
-        case st_init:
+        case st_init: //Done initializing, set to idle.
             FSM_desired_floor = FSM_current_floor;
             FSM_set_state(st_idle);
             break;
@@ -61,13 +62,13 @@ void event_floor(int floor){
         case st_idle: //Stay idle if no orders
             break;
 
-        case st_running:
+        case st_running: //Stop only if reached desired floor.
             if (FSM_current_floor == FSM_desired_floor) {
                 FSM_set_state(st_door);
             }
             break;
 
-        case st_door:
+        case st_door: //Wait for door to close, then move to idle or running
             if (timer_isTimeOut()) {
                 elev_set_door_open_lamp(0);
                 if (!FSM_q_empty) {
@@ -81,8 +82,7 @@ void event_floor(int floor){
             
             break;
 
-        case st_EStop:
-            /* code */
+        case st_EStop: //Do nothing while emergency stopped
             break;
 
         default:
@@ -115,11 +115,14 @@ elev_motor_direction_t FSM_decide_direction(){
 
 
 void FSM_set_state(state s){
-    
-    current_state = s;
-    q_set_direction_space();
 
-    switch (current_state)
+    //Update current state and direction space
+    FSM_current_state = s;
+    if (FSM_current_state != st_EStop) {
+        q_set_direction_space();
+    }
+
+    switch (FSM_current_state)
     {
         case st_idle:       
             elev_set_motor_direction(DIRN_STOP);
@@ -132,21 +135,66 @@ void FSM_set_state(state s){
         case st_door:
             timer_start();
             elev_set_motor_direction(DIRN_STOP);
-            q_remove_order(FSM_current_floor); //Order in this floor is served
+            q_remove_order(FSM_current_floor); //All orders on this floor are served.
             elev_set_door_open_lamp(1);
             break;
 
-        case st_EStop:
-            /* code */
+        case st_EStop: //Remove all orders, stop carriage, open door only if carriage is at a floor.
+            elev_set_motor_direction(DIRN_STOP);
+            q_reset_orders();
+            elev_set_stop_lamp(1);
+            FSM_desired_floor = FSM_current_floor;
+            direction_space = DIRN_STOP;
+            if (!FSM_between_floors) {
+                elev_set_door_open_lamp(1);
+            }
             break;
 
         default:
             break;
     }
-    printf("Current state: %d\n", current_state);
+
+    //Testing purpose only
+    printf("Current state: %d\n", FSM_current_state);
     printf("Current floor: %d\n", FSM_current_floor);
-    printf("Desired floor: %d\n", FSM_desired_floor);
+    printf("Desired floor: %d\n\n", FSM_desired_floor);
 }
 
 
 
+
+void FSM_stop_pressed_logic(){
+    if (!FSM_stop_pressed) {
+        elev_set_stop_lamp(1);
+        FSM_stop_pressed = 1;
+    }
+    if (FSM_current_state != st_EStop) { 
+        FSM_set_state(st_EStop);
+    }  
+}
+
+
+
+
+void FSM_stop_depressed_logic(){
+    //Make sure timer only starts once
+    if (FSM_stop_pressed) {
+        timer_start();
+        elev_set_stop_lamp(0);
+        FSM_stop_pressed = 0;
+    }
+    
+    if (FSM_current_state == st_EStop) {
+        if (!FSM_between_floors) {
+            if (timer_isTimeOut()) {
+                elev_set_door_open_lamp(0);
+                FSM_set_state(st_idle);
+            }
+        }
+        else
+        {
+            elev_set_stop_lamp(0);
+            FSM_set_state(st_idle);
+        }
+    }
+}
