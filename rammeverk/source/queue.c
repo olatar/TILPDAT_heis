@@ -16,9 +16,12 @@ void q_set_orders(elev_button_type_t button, int floor){
 
 
 void q_remove_order(floor){
-    for(int i = 0; i < 3; i++){
-        orders[floor][i] = 0;
-        elev_set_button_lamp(i,floor,0);
+    for(int button = 0; button < 3; button++){
+        orders[floor][button] = 0;
+        if ((floor == 0 && (button == BUTTON_CALL_DOWN)) || (floor == N_FLOORS-1 && (button == BUTTON_CALL_UP))) {
+            continue;
+        }
+        elev_set_button_lamp(button,floor,0);
     }
 
     //Checking if the order table is empty
@@ -126,6 +129,9 @@ void q_reset_orders(){
     for(int i = 0; i < N_FLOORS; i++){
         for(int j = 0; j < 3; j++){
             orders[i][j] = 0;
+            if ((i == 0 && (j == BUTTON_CALL_DOWN)) || (i == N_FLOORS-1 && (j == BUTTON_CALL_UP))) {
+                continue;
+            }
             elev_set_button_lamp(j,i,0);
         }
     }

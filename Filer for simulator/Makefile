@@ -1,4 +1,4 @@
-SOURCES := main.c elev.c io.c fsm.c queue.c timer.c
+SOURCES := main.c elev.c fsm.c queue.c timer.c #io.c
 
 BUILD_DIR := build
 OBJ := $(SOURCES:%.c=$(BUILD_DIR)/%.o)
@@ -14,8 +14,8 @@ LDFLAGS := -lcomedi -lm
 .DEFAULT_GOAL := heis
 
 heis : $(OBJ)
-	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) -o $@
-
+	$(CC) $(CFLAGS)  $(OBJ) -o $@
+#$(LDFLAGS)
 $(BUILD_DIR) :
 	mkdir $(BUILD_DIR)
 
