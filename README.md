@@ -1,4 +1,6 @@
 Known bugs:
 
-* Not implemented fail-safe for carriage out of bounds (beyond 0th and 4th floor).
-* Ignores all orders when an order for the just passed floor is placed. Travels beyond bounds.
+* When an order for the current floor is placed, the elevator goes to
+	st_running->st_door->st_running->st_door->st_idle
+  instead of just going to st_door->st-idle
+

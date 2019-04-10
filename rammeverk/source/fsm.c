@@ -8,7 +8,7 @@
 void FSM_init(){
     elev_set_motor_direction(DIRN_UP);
     q_reset_orders();
-    direction_space = DIRN_STOP;
+    q_direction_space = DIRN_STOP;
     FSM_current_state = st_init;
 }
 
@@ -22,16 +22,25 @@ void FSM_event_button(elev_button_type_t button, int floor) {
             break;
         case st_idle: //Add to queue, change state
             q_set_orders(button,floor);
-            FSM_set_state(st_running);
+            if (floor == FSM_current_floor) {
+                FSM_set_state(st_door);
+            }
+            else
+            {
+                FSM_set_state(st_running);
+            }
             break;
 
         case st_running: //Add to queue
             q_set_orders(button,floor);
             q_set_desired_floor();
+            printf("Desired floor: %d\n\n", FSM_desired_floor);
             break;
 
         case st_door: //Add to queue
-            q_set_orders(button,floor);
+            if (floor != FSM_current_floor) {
+                q_set_orders(button,floor);
+            }
             break;
 
         case st_EStop: //Ingnore any orders while emergency stopped
@@ -63,6 +72,9 @@ void FSM_event_floor(int floor){
             break;
 
         case st_running: //Stop only if reached desired floor.
+            if ((floor == 0 && q_direction_space == DIRN_DOWN) || (floor == N_FLOORS -1 && q_direction_space == DIRN_UP)) {
+                elev_set_motor_direction(DIRN_STOP);
+            }
             if (FSM_current_floor == FSM_desired_floor) {
                 FSM_set_state(st_door);
             }
@@ -119,7 +131,7 @@ void FSM_set_state(state s){
     //Update current state and direction space
     FSM_current_state = s;
     if (FSM_current_state != st_EStop) {
-        q_set_direction_space();
+        q_set_q_direction_space();
     }
 
     switch (FSM_current_state)
@@ -144,7 +156,7 @@ void FSM_set_state(state s){
             q_reset_orders();
             elev_set_stop_lamp(1);
             FSM_desired_floor = FSM_current_floor;
-            direction_space = DIRN_STOP;
+            q_direction_space = DIRN_STOP;
             if (!FSM_between_floors) {
                 elev_set_door_open_lamp(1);
             }

@@ -3,7 +3,7 @@
 #include "elev.h"
 
 
-elev_motor_direction_t direction_space;
+elev_motor_direction_t q_direction_space;
 
 /**
  * Updates the order matrix, direction space and order lights
@@ -28,7 +28,7 @@ void q_set_desired_floor();
 /**
  * Determines the overall direction of the carriage
 */
-void q_set_direction_space();
+void q_set_q_direction_space();
 
 
 
