@@ -28,7 +28,7 @@ void q_set_desired_floor();
 /**
  * Determines the overall direction of the carriage
 */
-void q_set_q_direction_space();
+void q_set_direction_space();
 
 
 

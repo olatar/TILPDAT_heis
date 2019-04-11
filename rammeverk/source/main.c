@@ -14,6 +14,7 @@ int main(){
 
     FSM_init();
 
+    printf("Current state: %d\n\n", FSM_current_state);
 
     while(1){
         
@@ -53,7 +54,11 @@ int main(){
                     FSM_event_button(button, floor);
                 }
             }
-        }   
+        }
+        
+  
+        
+  
     }
 
     return 0;

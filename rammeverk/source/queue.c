@@ -8,7 +8,7 @@ static int orders[N_FLOORS][3]; //Matrix with orders
 void q_set_orders(elev_button_type_t button, int floor){
     orders[floor][button] = 1;
     elev_set_button_lamp(button,floor,1);
-    q_set_q_direction_space();
+    //q_set_direction_space();
     FSM_q_empty = 0;
 
 }
@@ -38,10 +38,10 @@ void q_remove_order(floor){
 
 
 
-void q_set_q_direction_space(){
+void q_set_direction_space(){
 
     int order = FSM_current_floor;
-
+    
     switch (q_direction_space){
 
         case DIRN_STOP: //Find the direction to any order. If no orders, remain in DIRN_STOP
@@ -72,6 +72,8 @@ void q_set_q_direction_space(){
             if (FSM_current_floor == order) {
                 q_direction_space = DIRN_STOP;
             }
+
+            
             
             break;
         
@@ -85,7 +87,7 @@ void q_set_q_direction_space(){
                 }
             }
             if (FSM_current_floor == order) {
-                q_direction_space = DIRN_STOP;
+                    q_direction_space = DIRN_STOP;
             }
             break;
     
@@ -99,25 +101,35 @@ void q_set_q_direction_space(){
 void q_set_desired_floor(){ //Iterates through orders in the current elevator space to determine where to go next
 
     if (q_direction_space == DIRN_UP) { //Only check orders that go up
-        FSM_desired_floor = N_FLOORS-1;
-        for(int i = FSM_current_floor+1; i < N_FLOORS-1; i++){
+
+        for(int i = FSM_current_floor+1; i <= N_FLOORS-1; i++){
             //Update desired floor to the lowest ordered floor in DIRN_UP
-            if (orders[i][BUTTON_COMMAND] || (orders[i][BUTTON_CALL_UP] && (FSM_desired_floor > i))) { 
+            if (orders[i][BUTTON_CALL_DOWN]) { 
                 FSM_desired_floor = i;
             }
-            
         }
-        
+        for(int i = N_FLOORS-1; i >= FSM_current_floor+1; i--){
+            //Update desired floor to the lowest ordered floor in DIRN_UP
+            if (orders[i][BUTTON_COMMAND] || orders[i][BUTTON_CALL_UP]) { 
+                FSM_desired_floor = i;
+            }
+        }
     }
 
     else if (q_direction_space == DIRN_DOWN) { //Only check orders that go down
-        FSM_desired_floor = 0;
-        for(int i = 0; i <= FSM_current_floor-1; i++){
-            //Update desired floor to the highest ordered floor in DIRN_DOWN
-            if (orders[i][BUTTON_COMMAND] || (orders[i][BUTTON_CALL_DOWN] && (FSM_desired_floor < i))) {
+
+        for(int i = FSM_current_floor-1; i >= 0; i--){
+            //Update desired floor to the lowest ordered floor in DIRN_UP
+            if (orders[i][BUTTON_CALL_UP]) { 
                 FSM_desired_floor = i;
             }
-            
+        }
+
+        for(int i = 0; i <= FSM_current_floor-1; i++){
+            //Update desired floor to the lowest ordered floor in DIRN_UP
+            if (orders[i][BUTTON_COMMAND] || orders[i][BUTTON_CALL_DOWN]) { 
+                FSM_desired_floor = i;
+            }
         }
     }
 }

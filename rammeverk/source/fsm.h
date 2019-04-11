@@ -7,11 +7,9 @@
 /**
   States for the FSM
 */
-typedef enum {st_init, st_idle, st_running, st_door, st_EStop} state;
+typedef enum {st_init, st_idle, st_running, st_door, st_stop_pressed, st_stop_depressed} state;
 
 state FSM_current_state; 
-
-
 
 //Boolean variables
 int FSM_between_floors; 
