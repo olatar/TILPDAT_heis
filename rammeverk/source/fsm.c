@@ -49,6 +49,8 @@ void FSM_event_button(elev_button_type_t button, int floor) {
 
         case st_stop_depressed: 
             q_set_orders(button,floor);
+
+            //Special case if carriage is called to the just passed floor
             if (floor == FSM_current_floor) {
                 if (q_direction_space == DIRN_UP) { //Pretends to have reached the next floor to avoid trouble
                     q_direction_space = DIRN_DOWN;
@@ -58,8 +60,10 @@ void FSM_event_button(elev_button_type_t button, int floor) {
                     q_direction_space = DIRN_UP;
                     FSM_current_floor = -1;
                 }              
-            }
+            }  
+            //Any other case
             else{
+                q_direction_space = DIRN_STOP;
                 q_set_direction_space();
             }
             FSM_set_state(st_running);
