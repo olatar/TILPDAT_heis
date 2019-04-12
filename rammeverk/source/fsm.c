@@ -27,13 +27,12 @@ void FSM_event_button(elev_button_type_t button, int floor) {
             if (floor == FSM_current_floor && !FSM_between_floors) {
                 FSM_set_state(st_door);
             }
-            else
-            {
+            else{
                 FSM_set_state(st_running);
             }
             break;
 
-        case st_running: //Add to queue
+        case st_running: //Add to queue, update desired floor
             q_set_orders(button,floor);
             q_set_desired_floor();
             break;
@@ -50,15 +49,15 @@ void FSM_event_button(elev_button_type_t button, int floor) {
         case st_stop_depressed: 
             q_set_orders(button,floor);
 
-            //Special case if carriage is called to the just passed floor
+            //Special case if carriage is called to the just passed floor. See README.
             if (floor == FSM_current_floor) {
-                if (q_direction_space == DIRN_UP) { //Pretends to have reached the next floor to avoid trouble
+                if (q_direction_space == DIRN_UP) { 
                     q_direction_space = DIRN_DOWN;
-                    FSM_current_floor = N_FLOORS;
+                    ++FSM_current_floor;
                 }
-                else if (q_direction_space == DIRN_DOWN) { //Pretends to have reached the next floor to avoid trouble
+                else if (q_direction_space == DIRN_DOWN) {
                     q_direction_space = DIRN_UP;
-                    FSM_current_floor = -1;
+                    --FSM_current_floor;
                 }              
             }  
             //Any other case
@@ -79,7 +78,6 @@ void FSM_event_button(elev_button_type_t button, int floor) {
 
 void FSM_event_floor(int floor){
 
-    //Update current floor and floor lights.
     FSM_current_floor = floor; 
     elev_set_floor_indicator(floor);
 
@@ -94,9 +92,12 @@ void FSM_event_floor(int floor){
             break;
 
         case st_running: //Stop only if reached desired floor.
+
+            //Fail-safe for carriage out of bounds.
             if ((floor == 0 && q_direction_space == DIRN_DOWN) || (floor == N_FLOORS -1 && q_direction_space == DIRN_UP)) {
                 elev_set_motor_direction(DIRN_STOP);
             }
+
             if (FSM_current_floor == FSM_desired_floor) {
                 FSM_set_state(st_door);
             }
@@ -108,8 +109,7 @@ void FSM_event_floor(int floor){
                 if (!FSM_q_empty) {
                     FSM_set_state(st_running);
                 }
-                else
-                {
+                else{
                     FSM_set_state(st_idle);
                 }
             }
@@ -136,8 +136,6 @@ elev_motor_direction_t FSM_decide_direction(){
     
     q_set_desired_floor();
 
-    
-
     if (FSM_desired_floor > FSM_current_floor) {
         return DIRN_UP;
     }
@@ -156,17 +154,13 @@ elev_motor_direction_t FSM_decide_direction(){
 
 void FSM_set_state(state s){
 
-    //Update current state and direction space
+    //Update current state and direction space. Direction space is set manually when emergency stopped.
     if (!(FSM_current_state == st_stop_pressed || FSM_current_state == st_stop_depressed)) {
         q_set_direction_space();
     }
+
     FSM_current_state = s;
 
-    printf("Current state: %d\n", FSM_current_state);
-    printf("Direction space: %d\n", q_direction_space);
-    printf("Between floors: %d\n", FSM_between_floors);
-    printf("Current floor: %d\n", FSM_current_floor);
-    printf("Desired floor: %d\n\n", FSM_desired_floor);
     switch (FSM_current_state)
     {
         case st_idle:     
@@ -197,7 +191,7 @@ void FSM_set_state(state s){
         case st_stop_depressed: 
             if (!FSM_between_floors) {
                 while(!timer_isTimeOut()){
-                    //Busy wait
+                    //Busy wait. Ignore orders.
                 }
                 elev_set_door_open_lamp(0);
             }
@@ -225,6 +219,7 @@ void FSM_stop_pressed_logic(){
 
 
 void FSM_stop_depressed_logic(){
+    
     //Make sure timer only starts once
     if (FSM_stop_pressed) {
         timer_start();

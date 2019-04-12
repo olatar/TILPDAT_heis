@@ -8,9 +8,7 @@ static int orders[N_FLOORS][3]; //Matrix with orders
 void q_set_orders(elev_button_type_t button, int floor){
     orders[floor][button] = 1;
     elev_set_button_lamp(button,floor,1);
-    //q_set_direction_space();
     FSM_q_empty = 0;
-
 }
 
 
@@ -44,7 +42,7 @@ void q_set_direction_space(){
     
     switch (q_direction_space){
 
-        case DIRN_STOP: //Find the direction to any order. If no orders, remain in DIRN_STOP
+        case DIRN_STOP: //Find the direction to any order. If no orders, remain in DIRN_STOP.
             for(int floor = 0; floor < N_FLOORS; floor++){
                 for(int button = 0; button < 3; button++){
                     if (orders[floor][button]) {
@@ -98,16 +96,16 @@ void q_set_direction_space(){
 
 
 
-void q_set_desired_floor(){ //Iterates through orders in the current elevator space to determine where to go next
+void q_set_desired_floor(){
 
-    if (q_direction_space == DIRN_UP) { //Only check orders that go up
+    if (q_direction_space == DIRN_UP) { //Prioritizes the orders from COMMAND and CALL_UP. 
 
         for(int i = FSM_current_floor+1; i <= N_FLOORS-1; i++){
-            //Update desired floor to the lowest ordered floor in DIRN_UP
             if (orders[i][BUTTON_CALL_DOWN]) { 
                 FSM_desired_floor = i;
             }
         }
+
         for(int i = N_FLOORS-1; i >= FSM_current_floor+1; i--){
             //Update desired floor to the lowest ordered floor in DIRN_UP
             if (orders[i][BUTTON_COMMAND] || orders[i][BUTTON_CALL_UP]) { 
@@ -116,17 +114,16 @@ void q_set_desired_floor(){ //Iterates through orders in the current elevator sp
         }
     }
 
-    else if (q_direction_space == DIRN_DOWN) { //Only check orders that go down
+    else if (q_direction_space == DIRN_DOWN) { //Prioritizes the orders from COMMAND and CALL_DOWN. 
 
         for(int i = FSM_current_floor-1; i >= 0; i--){
-            //Update desired floor to the lowest ordered floor in DIRN_UP
             if (orders[i][BUTTON_CALL_UP]) { 
                 FSM_desired_floor = i;
             }
         }
 
         for(int i = 0; i <= FSM_current_floor-1; i++){
-            //Update desired floor to the lowest ordered floor in DIRN_UP
+            //Update desired floor to the lowest ordered floor in DIRN_DOWN
             if (orders[i][BUTTON_COMMAND] || orders[i][BUTTON_CALL_DOWN]) { 
                 FSM_desired_floor = i;
             }

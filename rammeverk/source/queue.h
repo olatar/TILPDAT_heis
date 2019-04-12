@@ -19,7 +19,8 @@ void q_remove_order(int floor);
 
 
 /**
- * Determines the desired floor based on the current direction/elevator space nad the order matrix
+ * Iterates through the order matrix and decides where to go next based on 
+ * the current direction space and the order matrix.
 */
 void q_set_desired_floor();
 

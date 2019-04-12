@@ -56,7 +56,7 @@ elev_motor_direction_t FSM_decide_direction();
 
 
 /**
- * Decicion making when stop button is pressed
+ * Decicion making when stop button is pressed.
 */
 void FSM_stop_pressed_logic();
 
@@ -64,7 +64,7 @@ void FSM_stop_pressed_logic();
 
 
 /**
- * Decicion making when stop button is depressed
+ * Decicion making when stop button is depressed. Decicion depends on if carriage is at a floor.
 */
 void FSM_stop_depressed_logic();
 

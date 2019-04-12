@@ -13,6 +13,6 @@ void timer_start();
  * Returns 1 if the difference between current time and start time is
  * greater than 3. Returns 0 otherwise.
 **/
-int timer_isTimeOut(); //Boolean
+int timer_isTimeOut();
 
 #endif
