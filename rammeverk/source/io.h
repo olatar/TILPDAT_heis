@@ -3,13 +3,19 @@
 // the real time lab.
 //
 // 2006, Martin Korsgaard
+
+/**
+ * @file
+ * @brief Wrapper for libComedi I/O. Functions which provide and interface to libComedi.
+ */
+
 #ifndef __INCLUDE_IO_H__
 #define __INCLUDE_IO_H__
 
 
 
 /**
-  Initialize libComedi in "Sanntidssalen"
+  @brief Initialize libComedi in "Sanntidssalen"
   @return Non-zero on success and 0 on failure
 */
 int io_init();
@@ -17,7 +23,7 @@ int io_init();
 
 
 /**
-  Sets a digital channel bit.
+  @brief Sets a digital channel bit.
   @param channel Channel bit to set.
 */
 void io_set_bit(int channel);
@@ -25,7 +31,7 @@ void io_set_bit(int channel);
 
 
 /**
-  Clears a digital channel bit.
+  @brief Clears a digital channel bit.
   @param channel Channel bit to set.
 */
 void io_clear_bit(int channel);
@@ -33,7 +39,7 @@ void io_clear_bit(int channel);
 
 
 /**
-  Writes a value to an analog channel.
+  @brief Writes a value to an analog channel.
   @param channel Channel to write to.
   @param value Value to write.
 */
@@ -42,7 +48,7 @@ void io_write_analog(int channel, int value);
 
 
 /**
-  Reads a bit value from a digital channel.
+  @brief Reads a bit value from a digital channel.
   @param channel Channel to read from.
   @return Value read.
 */
@@ -52,7 +58,7 @@ int io_read_bit(int channel);
 
 
 /**
-  Reads a bit value from an analog channel.
+  @brief Reads a bit value from an analog channel.
   @param channel Channel to read from.
   @return Value read.
 */
