@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief Main function of the project.
+ * @brief Main function of the project
  */
 
 #include "elev.h"
@@ -9,14 +9,12 @@
 #include "timer.h"
 #include <stdio.h>
 
-/*****************************************TOD0: sette inn @ warning der det er tilfeller ved at noen input vil føre til terminering osv (edge.cases)
-
 /**
  * @brief Main function of the project: an initialization, then an infinite loop polling floor and button events.
+ * @warning If elev_get_stop_signal() return @c 0, then main() will end returning @c 1.
  * @see References elev_init(), elev_get_stop_signal(), elev_get_floor_sensor_signal(), elev_get_button_signal(elev_button_type_t button, int floor) (Hardware), 
  * FSM_stop_pressed_logic(), FSM_stop_depressed_logic(), FSM_event_floor(int floor) and FSM_event_button(elev_button_type_t button, int floor) (FSM)
 */
-
 int main(){
 
     if (!elev_init()) {
