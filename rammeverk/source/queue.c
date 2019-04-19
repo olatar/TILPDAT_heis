@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @brief Implementation file for the queue library
+ */
+
 #include "queue.h"
 #include "fsm.h"
 #include <stdio.h>

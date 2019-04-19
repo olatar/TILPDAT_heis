@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief Library for the state machine of the elevator.
+ * @brief Library for the finite state machine of the elevator.
  * @details The module decide which action to take based on the current information every time a new event occur.
  */
 
@@ -21,6 +21,7 @@
  * @image html Klassediagram.svg "Diagram describing the relationship between the different modules"
  * @image latex Klassediagram.eps "Klassediagram" width=10cm
  */
+
 
 /**
   @brief States for the FSM

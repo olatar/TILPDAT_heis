@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @brief Implementation file for the finite state machine
+ */
+
 #include "fsm.h"
 #include "elev.h"
 #include "queue.h"

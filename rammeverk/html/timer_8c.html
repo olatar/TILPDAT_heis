@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.15"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Elevator project TTK4235: source/timer.h File Reference</title>
+<title>Elevator project TTK4235: source/timer.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -66,30 +66,42 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
-<div class="title">timer.h File Reference</div>  </div>
+<div class="title">timer.c File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Library ofor the elevator timer.  
+<p>Implementation file for the timer.  
 <a href="#details">More...</a></p>
-
-<p><a href="timer_8h_source.html">Go to the source code of this file.</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="timer_8h_source.html">timer.h</a>&quot;</code><br />
+<code>#include &quot;time.h&quot;</code><br />
+</div>
+<p><a href="timer_8c_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a161432848a326da3a1ea7765fc2bc023"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timer_8h.html#a161432848a326da3a1ea7765fc2bc023">timer_start</a> ()</td></tr>
+<tr class="memitem:a161432848a326da3a1ea7765fc2bc023"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timer_8c.html#a161432848a326da3a1ea7765fc2bc023">timer_start</a> ()</td></tr>
 <tr class="memdesc:a161432848a326da3a1ea7765fc2bc023"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set start_time to the current time.  <a href="#a161432848a326da3a1ea7765fc2bc023">More...</a><br /></td></tr>
 <tr class="separator:a161432848a326da3a1ea7765fc2bc023"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5127ac63e98beda170c2d5094be8f4e2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timer_8h.html#a5127ac63e98beda170c2d5094be8f4e2">timer_isTimeOut</a> ()</td></tr>
+<tr class="memitem:a5127ac63e98beda170c2d5094be8f4e2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timer_8c.html#a5127ac63e98beda170c2d5094be8f4e2">timer_isTimeOut</a> ()</td></tr>
 <tr class="memdesc:a5127ac63e98beda170c2d5094be8f4e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if timer is finished.  <a href="#a5127ac63e98beda170c2d5094be8f4e2">More...</a><br /></td></tr>
 <tr class="separator:a5127ac63e98beda170c2d5094be8f4e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:ad20e89e0c86aa812dc3a8e2fb7b5777b"><td class="memItemLeft" align="right" valign="top"><a id="ad20e89e0c86aa812dc3a8e2fb7b5777b"></a>
+time_t&#160;</td><td class="memItemRight" valign="bottom"><b>start_time</b></td></tr>
+<tr class="separator:ad20e89e0c86aa812dc3a8e2fb7b5777b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1938d5563a4d7b5ef9b9f74a685508b"><td class="memItemLeft" align="right" valign="top"><a id="ab1938d5563a4d7b5ef9b9f74a685508b"></a>
+time_t&#160;</td><td class="memItemRight" valign="bottom"><b>current_time</b></td></tr>
+<tr class="separator:ab1938d5563a4d7b5ef9b9f74a685508b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Library ofor the elevator timer. </p>
+<div class="textblock"><p>Implementation file for the timer. </p>
 
-<p class="definition">Definition in file <a class="el" href="timer_8h_source.html">timer.h</a>.</p>
+<p class="definition">Definition in file <a class="el" href="timer_8c_source.html">timer.c</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a id="a5127ac63e98beda170c2d5094be8f4e2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5127ac63e98beda170c2d5094be8f4e2">&#9670;&nbsp;</a></span>timer_isTimeOut()</h2>

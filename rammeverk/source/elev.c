@@ -3,6 +3,10 @@
 //
 // 2007, Martin Korsgaard
 
+/**
+ * @file
+ * @brief Implementation file for the elev library
+ */
 
 #include "channels.h"
 #include "elev.h"

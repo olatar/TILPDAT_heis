@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief Library of functions creating a timer for the elevator.
+ * @brief Library ofor the elevator timer.
  */
 
 #ifndef __INCLUDE_TIMER_H__

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.15"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Elevator project TTK4235: source/elev.h File Reference</title>
+<title>Elevator project TTK4235: source/elev.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,89 +67,65 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#define-members">Macros</a> &#124;
-<a href="#typedef-members">Typedefs</a> &#124;
-<a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">elev.h File Reference</div>  </div>
+<div class="title">elev.c File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Library for the hardware of the project.  
+<p>Implementation file for the elev library.  
 <a href="#details">More...</a></p>
-
-<p><a href="elev_8h_source.html">Go to the source code of this file.</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="channels_8h_source.html">channels.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="elev_8h_source.html">elev.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="io_8h_source.html">io.h</a>&quot;</code><br />
+<code>#include &lt;assert.h&gt;</code><br />
+<code>#include &lt;stdlib.h&gt;</code><br />
+</div>
+<p><a href="elev_8c_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:ae0592e3739e5e1e76234bb1caf9d1305"><td class="memItemLeft" align="right" valign="top"><a id="ae0592e3739e5e1e76234bb1caf9d1305"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elev_8h.html#ae0592e3739e5e1e76234bb1caf9d1305">N_FLOORS</a>&#160;&#160;&#160;4</td></tr>
-<tr class="memdesc:ae0592e3739e5e1e76234bb1caf9d1305"><td class="mdescLeft">&#160;</td><td class="mdescRight">Amount of floors. <br /></td></tr>
-<tr class="separator:ae0592e3739e5e1e76234bb1caf9d1305"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:a2256dfd58fecce253106f83fd2ed607f"><td class="memItemLeft" align="right" valign="top"><a id="a2256dfd58fecce253106f83fd2ed607f"></a>
-typedef enum <a class="el" href="elev_8h.html#aaf85d173ea1bbd3d99c5a2fcf58cba11">tag_elev_motor_direction</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elev_8h.html#a2256dfd58fecce253106f83fd2ed607f">elev_motor_direction_t</a></td></tr>
-<tr class="memdesc:a2256dfd58fecce253106f83fd2ed607f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Motor direction for function <a class="el" href="elev_8c.html#ac7dccb879f6e812e9d245174a0214536" title="Sets the motor direction of the elevator.">elev_set_motor_direction()</a>. <br /></td></tr>
-<tr class="separator:a2256dfd58fecce253106f83fd2ed607f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af61c4136fb437a2c49037e5a57c9abda"><td class="memItemLeft" align="right" valign="top"><a id="af61c4136fb437a2c49037e5a57c9abda"></a>
-typedef enum <a class="el" href="elev_8h.html#a0c3f8374e6ebcc71f91341eb3ba6f6f9">tag_elev_lamp_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elev_8h.html#af61c4136fb437a2c49037e5a57c9abda">elev_button_type_t</a></td></tr>
-<tr class="memdesc:af61c4136fb437a2c49037e5a57c9abda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Button types for function <a class="el" href="elev_8c.html#a9e81321c63d80ddf1699bc91593cd9d4" title="Set a button lamp.">elev_set_button_lamp()</a> and elev_get_button(). <br /></td></tr>
-<tr class="separator:af61c4136fb437a2c49037e5a57c9abda"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
-Enumerations</h2></td></tr>
-<tr class="memitem:aaf85d173ea1bbd3d99c5a2fcf58cba11"><td class="memItemLeft" align="right" valign="top"><a id="aaf85d173ea1bbd3d99c5a2fcf58cba11"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elev_8h.html#aaf85d173ea1bbd3d99c5a2fcf58cba11">tag_elev_motor_direction</a> { <b>DIRN_DOWN</b> = -1, 
-<b>DIRN_STOP</b> = 0, 
-<b>DIRN_UP</b> = 1
- }</td></tr>
-<tr class="memdesc:aaf85d173ea1bbd3d99c5a2fcf58cba11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Motor direction for function <a class="el" href="elev_8h.html#ac7dccb879f6e812e9d245174a0214536" title="Sets the motor direction of the elevator.">elev_set_motor_direction()</a>. <br /></td></tr>
-<tr class="separator:aaf85d173ea1bbd3d99c5a2fcf58cba11"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0c3f8374e6ebcc71f91341eb3ba6f6f9"><td class="memItemLeft" align="right" valign="top"><a id="a0c3f8374e6ebcc71f91341eb3ba6f6f9"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elev_8h.html#a0c3f8374e6ebcc71f91341eb3ba6f6f9">tag_elev_lamp_type</a> { <b>BUTTON_CALL_UP</b> = 0, 
-<b>BUTTON_CALL_DOWN</b> = 1, 
-<b>BUTTON_COMMAND</b> = 2
- }</td></tr>
-<tr class="memdesc:a0c3f8374e6ebcc71f91341eb3ba6f6f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Button types for function <a class="el" href="elev_8h.html#a9e81321c63d80ddf1699bc91593cd9d4" title="Set a button lamp.">elev_set_button_lamp()</a> and elev_get_button(). <br /></td></tr>
-<tr class="separator:a0c3f8374e6ebcc71f91341eb3ba6f6f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a271dda243b0f5bd7d2053d258eb71962"><td class="memItemLeft" align="right" valign="top"><a id="a271dda243b0f5bd7d2053d258eb71962"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>N_BUTTONS</b>&#160;&#160;&#160;3</td></tr>
+<tr class="separator:a271dda243b0f5bd7d2053d258eb71962"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a949b0e1f7c0f03ea6f92008c378e4573"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elev_8h.html#a949b0e1f7c0f03ea6f92008c378e4573">elev_init</a> (void)</td></tr>
+<tr class="memitem:a949b0e1f7c0f03ea6f92008c378e4573"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elev_8c.html#a949b0e1f7c0f03ea6f92008c378e4573">elev_init</a> (void)</td></tr>
 <tr class="memdesc:a949b0e1f7c0f03ea6f92008c378e4573"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize elevator.  <a href="#a949b0e1f7c0f03ea6f92008c378e4573">More...</a><br /></td></tr>
 <tr class="separator:a949b0e1f7c0f03ea6f92008c378e4573"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac7dccb879f6e812e9d245174a0214536"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elev_8h.html#ac7dccb879f6e812e9d245174a0214536">elev_set_motor_direction</a> (<a class="el" href="elev_8h.html#a2256dfd58fecce253106f83fd2ed607f">elev_motor_direction_t</a> dirn)</td></tr>
+<tr class="memitem:ac7dccb879f6e812e9d245174a0214536"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elev_8c.html#ac7dccb879f6e812e9d245174a0214536">elev_set_motor_direction</a> (<a class="el" href="elev_8h.html#a2256dfd58fecce253106f83fd2ed607f">elev_motor_direction_t</a> dirn)</td></tr>
 <tr class="memdesc:ac7dccb879f6e812e9d245174a0214536"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the motor direction of the elevator.  <a href="#ac7dccb879f6e812e9d245174a0214536">More...</a><br /></td></tr>
 <tr class="separator:ac7dccb879f6e812e9d245174a0214536"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6ce9a34b8677b483b0d8f9dc47b42c40"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elev_8h.html#a6ce9a34b8677b483b0d8f9dc47b42c40">elev_set_door_open_lamp</a> (int value)</td></tr>
+<tr class="memitem:a6ce9a34b8677b483b0d8f9dc47b42c40"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elev_8c.html#a6ce9a34b8677b483b0d8f9dc47b42c40">elev_set_door_open_lamp</a> (int value)</td></tr>
 <tr class="memdesc:a6ce9a34b8677b483b0d8f9dc47b42c40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn door-open lamp on or off.  <a href="#a6ce9a34b8677b483b0d8f9dc47b42c40">More...</a><br /></td></tr>
 <tr class="separator:a6ce9a34b8677b483b0d8f9dc47b42c40"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acd97a0fbc9013dc954923e25e90be9df"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elev_8h.html#acd97a0fbc9013dc954923e25e90be9df">elev_get_obstruction_signal</a> (void)</td></tr>
+<tr class="memitem:acd97a0fbc9013dc954923e25e90be9df"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elev_8c.html#acd97a0fbc9013dc954923e25e90be9df">elev_get_obstruction_signal</a> (void)</td></tr>
 <tr class="memdesc:acd97a0fbc9013dc954923e25e90be9df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get signal from obstruction switch.  <a href="#acd97a0fbc9013dc954923e25e90be9df">More...</a><br /></td></tr>
 <tr class="separator:acd97a0fbc9013dc954923e25e90be9df"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab702d0ff2d7d03172b7ae3829ba13028"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elev_8h.html#ab702d0ff2d7d03172b7ae3829ba13028">elev_get_stop_signal</a> (void)</td></tr>
+<tr class="memitem:ab702d0ff2d7d03172b7ae3829ba13028"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elev_8c.html#ab702d0ff2d7d03172b7ae3829ba13028">elev_get_stop_signal</a> (void)</td></tr>
 <tr class="memdesc:ab702d0ff2d7d03172b7ae3829ba13028"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get signal from stop button.  <a href="#ab702d0ff2d7d03172b7ae3829ba13028">More...</a><br /></td></tr>
 <tr class="separator:ab702d0ff2d7d03172b7ae3829ba13028"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a85de2a6536b4dd0c83bac19923500740"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elev_8h.html#a85de2a6536b4dd0c83bac19923500740">elev_set_stop_lamp</a> (int value)</td></tr>
+<tr class="memitem:a85de2a6536b4dd0c83bac19923500740"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elev_8c.html#a85de2a6536b4dd0c83bac19923500740">elev_set_stop_lamp</a> (int value)</td></tr>
 <tr class="memdesc:a85de2a6536b4dd0c83bac19923500740"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn stop lamp on or off.  <a href="#a85de2a6536b4dd0c83bac19923500740">More...</a><br /></td></tr>
 <tr class="separator:a85de2a6536b4dd0c83bac19923500740"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a97d30b7e2538acf5647515638070fdc5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elev_8h.html#a97d30b7e2538acf5647515638070fdc5">elev_get_floor_sensor_signal</a> (void)</td></tr>
+<tr class="memitem:a97d30b7e2538acf5647515638070fdc5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elev_8c.html#a97d30b7e2538acf5647515638070fdc5">elev_get_floor_sensor_signal</a> (void)</td></tr>
 <tr class="memdesc:a97d30b7e2538acf5647515638070fdc5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get floor sensor signal.  <a href="#a97d30b7e2538acf5647515638070fdc5">More...</a><br /></td></tr>
 <tr class="separator:a97d30b7e2538acf5647515638070fdc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6af53dd3ebae3a5791ba345eac84d4be"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elev_8h.html#a6af53dd3ebae3a5791ba345eac84d4be">elev_set_floor_indicator</a> (int floor)</td></tr>
+<tr class="memitem:a6af53dd3ebae3a5791ba345eac84d4be"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elev_8c.html#a6af53dd3ebae3a5791ba345eac84d4be">elev_set_floor_indicator</a> (int floor)</td></tr>
 <tr class="memdesc:a6af53dd3ebae3a5791ba345eac84d4be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set floor indicator lamp for a given floor.  <a href="#a6af53dd3ebae3a5791ba345eac84d4be">More...</a><br /></td></tr>
 <tr class="separator:a6af53dd3ebae3a5791ba345eac84d4be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2350a1635233760719700552a6cb0763"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elev_8h.html#a2350a1635233760719700552a6cb0763">elev_get_button_signal</a> (<a class="el" href="elev_8h.html#af61c4136fb437a2c49037e5a57c9abda">elev_button_type_t</a> button, int floor)</td></tr>
+<tr class="memitem:a2350a1635233760719700552a6cb0763"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elev_8c.html#a2350a1635233760719700552a6cb0763">elev_get_button_signal</a> (<a class="el" href="elev_8h.html#af61c4136fb437a2c49037e5a57c9abda">elev_button_type_t</a> button, int floor)</td></tr>
 <tr class="memdesc:a2350a1635233760719700552a6cb0763"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a button signal.  <a href="#a2350a1635233760719700552a6cb0763">More...</a><br /></td></tr>
 <tr class="separator:a2350a1635233760719700552a6cb0763"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e81321c63d80ddf1699bc91593cd9d4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elev_8h.html#a9e81321c63d80ddf1699bc91593cd9d4">elev_set_button_lamp</a> (<a class="el" href="elev_8h.html#af61c4136fb437a2c49037e5a57c9abda">elev_button_type_t</a> button, int floor, int value)</td></tr>
+<tr class="memitem:a9e81321c63d80ddf1699bc91593cd9d4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elev_8c.html#a9e81321c63d80ddf1699bc91593cd9d4">elev_set_button_lamp</a> (<a class="el" href="elev_8h.html#af61c4136fb437a2c49037e5a57c9abda">elev_button_type_t</a> button, int floor, int value)</td></tr>
 <tr class="memdesc:a9e81321c63d80ddf1699bc91593cd9d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a button lamp.  <a href="#a9e81321c63d80ddf1699bc91593cd9d4">More...</a><br /></td></tr>
 <tr class="separator:a9e81321c63d80ddf1699bc91593cd9d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Library for the hardware of the project. </p>
+<div class="textblock"><p>Implementation file for the elev library. </p>
 
-<p class="definition">Definition in file <a class="el" href="elev_8h_source.html">elev.h</a>.</p>
+<p class="definition">Definition in file <a class="el" href="elev_8c_source.html">elev.c</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a id="a2350a1635233760719700552a6cb0763"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2350a1635233760719700552a6cb0763">&#9670;&nbsp;</a></span>elev_get_button_signal()</h2>

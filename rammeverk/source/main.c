@@ -10,7 +10,7 @@
 #include <stdio.h>
 
 /**
- * @brief Main function of the project: an initialization, then an infinite loop polling floor and buttons events.
+ * @brief Main function of the project: an initialization, then an infinite loop polling floor and button events.
  * @see References elev_init(), elev_get_stop_signal(), elev_get_floor_sensor_signal(), elev_get_button_signal(elev_button_type_t button, int floor) (Hardware), 
  * FSM_stop_pressed_logic(), FSM_stop_depressed_logic(), FSM_event_floor(int floor) and FSM_event_button(elev_button_type_t button, int floor) (FSM)
 */

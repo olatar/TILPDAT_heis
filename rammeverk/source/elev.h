@@ -56,7 +56,7 @@ void elev_set_door_open_lamp(int value);
 
 /**
   @brief Get signal from obstruction switch.
-  @return 1 if obstruction is enabled. 0 if not.
+  @return 1 if obstruction is enabled, 0 if not.
 */
 int elev_get_obstruction_signal(void);
 

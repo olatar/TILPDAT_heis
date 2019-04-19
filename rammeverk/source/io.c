@@ -4,6 +4,10 @@
 //
 // 2006, Martin Korsgaard
 
+/**
+ * @file
+ * @brief Implementation file for the io library
+ */
 
 #include "io.h"
 #include "channels.h"

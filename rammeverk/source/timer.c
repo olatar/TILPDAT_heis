@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @brief Implementation file for the timer
+ */
+
 #include "timer.h"
 #include "time.h"
 
