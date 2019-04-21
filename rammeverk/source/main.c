@@ -1,3 +1,12 @@
+/*! 
+ * \mainpage
+ * \section Introduction
+ *  This file contains the documentation of the elevator project in TTK4235, spring semester 2019.
+ *  \authors   Håkon Haugan
+ *  \authors   Ola Tranum Arnegaard
+ *  \date      19.04.2019
+ */
+
 /**
  * @file
  * @brief Main function of the project, which contains the logic of the event manager module.

@@ -34,7 +34,7 @@ void q_remove_order(int floor);
 
 /**
  * @brief Iterate through the order matrix and decide where to go next based on 
- * the current q_direction_space and the orders.
+ * the current \link q_direction_space q_direction_space\endlink and the orders.
  * @see Referenced by FSM_event_button(elev_button_type_t button, int floor) and FSM_decide_direction()
 */
 void q_set_desired_floor();
@@ -42,7 +42,7 @@ void q_set_desired_floor();
 
 
 /**
- * @brief Determine the overall direction of the carriage, that is, updating \link q_direction_space q_direction_space\endlink
+ * @brief Determine the overall direction of the carriage, i.e. updating \link q_direction_space q_direction_space\endlink
  * @see Referenced by FSM_set_state(state s) and FSM_event_button(elev_button_type_t button, int floor)
 */
 void q_set_direction_space();

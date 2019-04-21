@@ -1,13 +1,13 @@
 /**
  * @file
- * @brief Library ofor the elevator timer.
+ * @brief Library for the elevator timer.
  */
 
 #ifndef __INCLUDE_TIMER_H__
 #define __INCLUDE_TIMER_H__
 
 /**
- * @brief Set start_time to the current time.
+ * @brief Set start time to the current time.
  * @see Referenced by FSM_set_state(state s)
 **/
 void timer_start();

@@ -9,20 +9,6 @@
 
 #include "elev.h"
 
-/*! 
- * \mainpage
- * \section Introduction
- *  This file contains the documentation of the elevator project in TTK4235, spring semester 2019.
- *  \authors   Håkon Haugan
- *  \authors   Ola Tranum Arnegaard
- *  \date      19.04.2019
- * \section Figures
- * This diagram illustrates the relationship between the modules in the eleavator project. The functions within the modules are documented in this file.
- * @image html Klassediagram.svg "Diagram describing the relationship between the different modules"
- * @image latex Klassediagram.eps "Klassediagram" width=10cm
- */
-
-
 /**
   @brief States for the FSM
 */
@@ -61,8 +47,8 @@ int FSM_desired_floor;
 
 /**
  * @brief Change the state and update \link q_direction_space q_direction_space\endlink.
- * @details Set the necessary control values and execute the neccassary functions such that the elevator changes state. 
- * Update \link FSM_current_state FSM_current_state\endlink and \link q_direction_space q_direction_space\endlink. However, \link q_direction_space q_direction_space\endlink is set manually when emergency stopped.
+ * @details Set the necessary control values and execute the necessary functions such that the elevator changes state. 
+ * Also, update \link FSM_current_state FSM_current_state\endlink and \link q_direction_space q_direction_space\endlink, however, \link q_direction_space q_direction_space\endlink is set manually when emergency stopped.
  * @param[in] s The state which will be changed to
  * @see References elev_set_motor_direction(elev_motor_direction_t dirn), elev_set_door_open_lamp(int value), elev_set_stop_lamp(int value) (Hardware),<br>
  * q_set_direction_space(), q_remove_order(int floor), q_remove_order(int floor) (Queue), timer_start(), timer_isTimeOut() (Timer)<br>
@@ -131,7 +117,7 @@ void FSM_stop_pressed_logic();
 
 
 /**
- * @brief Decicion making when stop button is depressed. Decicion depends on if carriage is at a floor.
+ * @brief Decision making when stop button is depressed. Decision depends on if carriage is at a floor.
  * @details Change the state to \link st_stop_depressed st_stop_depressed\endlink, update \link FSM_stop_pressed FSM_stop_pressed\endlink and start the timer and turn of lamp if current state is \link st_stop_pressed st_stop_pressed\endlink.
  * @see References timer_start(), elev_set_stop_lamp(int value) and FSM_set_state(state s)<br>
  * Referenced by main()
